@@ -4,11 +4,7 @@
 
     public interface IAppSettings
     {
-        bool IsUM { get; }
-
         string SentryDsn { get; }
-
-        string GetSubscriberInfo { get; }
 
         string Environment { get; }
     }
@@ -17,11 +13,7 @@
     {
         private readonly IConfiguration configuration;
 
-        private readonly bool isUM;
-
         private readonly string sentryDsn;
-
-        private readonly string getSubscriberInfo;
 
         private readonly string environment;
 
@@ -29,20 +21,12 @@
         {
             this.configuration = configuration;
 
-            isUM = GetValue<bool>("IsUM");
-
             sentryDsn = GetValue<string>("Sentry:Dsn");
-
-            getSubscriberInfo = GetValue<string>("GetSubscriberUrl");
 
             environment = GetValue<string>("Environment");
         }
 
-        public bool IsUM => isUM;
-
         public string SentryDsn => sentryDsn;
-
-        public string GetSubscriberInfo => getSubscriberInfo;
 
         public string Environment => environment;
 

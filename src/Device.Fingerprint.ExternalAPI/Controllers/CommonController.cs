@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Device.Fingerprint.ExternalAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("")]
     [ApiController]
     public class CommonController : ControllerBase
     {

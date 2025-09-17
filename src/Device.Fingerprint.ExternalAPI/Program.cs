@@ -20,7 +20,6 @@ builder.Configuration
 
 builder.Services.AddSingleton<ILogger, Logger>();
 builder.Services.AddSingleton<IAppSettings, AppSettings>();
-builder.Services.AddSingleton<IGatewaySettings, GatewaySettings>();
 
 builder.Services.AddAuthentication(option =>
 {
@@ -36,7 +35,7 @@ builder.Services.AddAuthentication(option =>
         ValidAudience = builder.Configuration.GetValue<string>("JWT:Audience"),
         ValidateLifetime = false,
         ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration.GetValue<string>("JWT:Key") ?? ""))
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration.GetValue<string>("JWT:Password") ?? ""))
     };
 });
 
@@ -104,7 +103,6 @@ builder.Services.AddSwaggerGen(swagger =>
 var app = builder.Build();
 
 var appSettings = app.Services.GetRequiredService<IAppSettings>();
-var gatewaySettings = app.Services.GetRequiredService<IGatewaySettings>();
 
 LogManager
     .SetDefaultLogCategory("Device.Fingerprint.WebAPI")
@@ -160,9 +158,7 @@ app.Use(async (context, next) =>
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.UseEndpoints(endpoints =>
-    endpoints.MapControllers()
-);
+app.MapControllers();
 
 app.UseHealthChecks("/healthz", new HealthCheckOptions
 {
