@@ -19,7 +19,7 @@ builder.Configuration
     .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
 
 builder.Services.AddSingleton<ILogger, Logger>();
-builder.Services.AddSingleton<IAppSettings, AppSettings>();
+builder.Services.AddSingleton<IAppSettings, AppSettings>(); 
 
 builder.Services.AddAuthentication(option =>
 {
