@@ -5,6 +5,8 @@ VisualStudioVersion = 17.14.36414.22
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Device.Fingerprint.ExternalAPI", "src\Device.Fingerprint.ExternalAPI\Device.Fingerprint.ExternalAPI.csproj", "{C29F67CA-0802-426F-8E88-9622317C45CD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Device.Fingerprint.ExternalAPI.Tests", "src\Device.Fingerprint.ExternalAPI.Tests\Device.Fingerprint.ExternalAPI.Tests.csproj", "{F9D8F498-1286-40FC-B94D-08174B9E6636}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{C29F67CA-0802-426F-8E88-9622317C45CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C29F67CA-0802-426F-8E88-9622317C45CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C29F67CA-0802-426F-8E88-9622317C45CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9D8F498-1286-40FC-B94D-08174B9E6636}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9D8F498-1286-40FC-B94D-08174B9E6636}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9D8F498-1286-40FC-B94D-08174B9E6636}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9D8F498-1286-40FC-B94D-08174B9E6636}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
