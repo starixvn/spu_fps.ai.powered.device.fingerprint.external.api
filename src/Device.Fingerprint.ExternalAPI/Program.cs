@@ -1,4 +1,4 @@
-using Device.FingerPrint.ExternalAPI;
+using Device.Fingerprint.ExternalAPI.Models;
 using Fanex.Logging;
 using Fanex.Logging.Extensions;
 using Fanex.Logging.Extensions.AspNetCore;

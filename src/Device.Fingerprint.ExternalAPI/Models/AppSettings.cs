@@ -1,4 +1,4 @@
-﻿namespace Device.FingerPrint.ExternalAPI
+﻿namespace Device.Fingerprint.ExternalAPI.Models
 {
     using System.ComponentModel;
 
