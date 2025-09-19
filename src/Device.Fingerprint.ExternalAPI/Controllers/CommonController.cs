@@ -1,5 +1,5 @@
 ﻿using Device.Fingerprint.ExternalAPI.Models;
-using Device.FingerPrint.Gateway;
+using Device.FingerPrint.ExternalAPI;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
 
