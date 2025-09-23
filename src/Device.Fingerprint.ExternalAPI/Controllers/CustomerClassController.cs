@@ -7,13 +7,13 @@ namespace Device.Fingerprint.ExternalAPI.Controllers
     [ApiController]
     public class CustomerClassController : ControllerBase
     {
-        //private readonly ISubscriberServices subscriberServices;
-        //private readonly IRiskLevelService riskLevelService;
+        private readonly ISubscriberService subscriberServices;
+        private readonly IRiskLevelService riskLevelService;
 
-        //public CustomerClassController(ISubscriberServices subscriberServices, IRiskLevelService riskLevelService)
-        //{
-        //    this.subscriberServices = subscriberServices;
-        //    this.riskLevelService = riskLevelService;
-        //}
+        public CustomerClassController(ISubscriberService subscriberServices, IRiskLevelService riskLevelService)
+        {
+            this.subscriberServices = subscriberServices;
+            this.riskLevelService = riskLevelService;
+        }
     }
 }

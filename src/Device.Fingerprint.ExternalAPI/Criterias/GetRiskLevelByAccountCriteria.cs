@@ -1,0 +1,22 @@
+﻿using Fanex.Data;
+using Fanex.Data.Repository;
+
+namespace Device.Fingerprint.ExternalAPI.Criterias
+{
+    public class GetRiskLevelByAccountCriteria : NonQueryCommand
+    {
+        [SpParam(SqlParamName = "ip_AccountIDList", AllowNull = true)]
+        public required string AccountIDs { get; set; }
+
+        public override string GetSettingKey()
+        {
+            return "CTS_DC_CustClassification_GetRiskLevelByAccount";
+        }
+
+        public override bool IsValid()
+        {
+            return true;
+        }
+    }
+
+}
