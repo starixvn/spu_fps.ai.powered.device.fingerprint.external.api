@@ -7,6 +7,8 @@
         string SentryDsn { get; }
 
         string Environment { get; }
+
+        int MaxMonthsGetAssociationByDevice { get; }
     }
 
     public class AppSettings : IAppSettings
@@ -17,6 +19,8 @@
 
         private readonly string environment;
 
+        private readonly int maxMonthsGetAssociationByDevice;
+
         public AppSettings(IConfiguration configuration)
         {
             this.configuration = configuration;
@@ -24,11 +28,16 @@
             sentryDsn = GetValue<string>("Sentry:Dsn");
 
             environment = GetValue<string>("Environment");
+
+            maxMonthsGetAssociationByDevice = Convert.ToInt32(string.IsNullOrEmpty(GetValue<string>("API:MaxMonthsGetAssociationByDevice")) ? "0" : GetValue<string>("API:MaxMonthsGetAssociationByDevice"));
+
         }
 
         public string SentryDsn => sentryDsn;
 
         public string Environment => environment;
+
+        public int MaxMonthsGetAssociationByDevice => maxMonthsGetAssociationByDevice;
 
         public T GetValue<T>(string key)
         {

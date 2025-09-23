@@ -90,6 +90,12 @@ builder.Services.AddScoped<RequestCounterFilter>();
 builder.Services.AddSingleton<ISubscriberDataAccess, SubscriberDataAccess>();
 builder.Services.AddScoped<ISubscriberService, SubscriberService>();
 
+builder.Services.AddSingleton<IRiskLevelDataAccess, RiskLevelDataAccess>();
+builder.Services.AddScoped<IRiskLevelService, RiskLevelService>();
+
+builder.Services.AddSingleton<ITransactionDataAccess, TransactionDataAccess>();
+builder.Services.AddScoped<ITransactionService, TransactionService>();
+
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddHealthChecks();
