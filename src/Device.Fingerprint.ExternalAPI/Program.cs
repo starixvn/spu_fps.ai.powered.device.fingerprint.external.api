@@ -1,4 +1,6 @@
+using Device.Fingerprint.ExternalAPI.Filters;
 using Device.Fingerprint.ExternalAPI.Models;
+using Device.Fingerprint.ExternalAPI.Services;
 using Fanex.Logging;
 using Fanex.Logging.Extensions;
 using Fanex.Logging.Extensions.AspNetCore;
@@ -8,8 +10,14 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.RateLimiting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using StackExchange.Redis.Extensions.Core;
+using StackExchange.Redis.Extensions.Core.Abstractions;
+using StackExchange.Redis.Extensions.Core.Configuration;
+using StackExchange.Redis.Extensions.Core.Implementations;
+using StackExchange.Redis.Extensions.MsgPack;
 using System.Text;
 using System.Threading.RateLimiting;
 
@@ -65,6 +73,19 @@ builder.Services.Configure<ForwardedHeadersOptions>(options =>
     options.ForwardedHeaders =
         ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
 });
+
+
+var redisConfiguration = builder.Configuration.GetSection("Redis").Get<RedisConfiguration>();
+
+builder.Services.AddSingleton(redisConfiguration);
+
+builder.Services.AddSingleton<IRedisClient, RedisClient>();
+builder.Services.AddSingleton<IRedisConnectionPoolManager, RedisConnectionPoolManager>();
+builder.Services.AddSingleton<ISerializer, MsgPackObjectSerializer>();
+builder.Services.AddSingleton<IRedisService, RedisService>();
+
+builder.Services.AddSingleton<RequestCounterService>();
+builder.Services.AddScoped<RequestCounterFilter>();
 
 builder.Services.AddHttpContextAccessor();
 
