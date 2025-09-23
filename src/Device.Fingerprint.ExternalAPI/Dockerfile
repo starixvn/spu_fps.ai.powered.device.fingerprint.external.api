@@ -1,30 +1,59 @@
-# See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
+# Multi-stage build for FPS AI-Powered Device Fingerprint ExternalAPI
+# Stage 1: Build
+FROM hub.nexdev.net/base/dotnet/core/sdk:9.0-alpine AS build
 
-# This stage is used when running from VS in fast mode (Default for Debug configuration)
-FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS base
-USER $APP_UID
-WORKDIR /app
-EXPOSE 8080
-EXPOSE 8081
-
-
-# This stage is used to build the service project
-FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
-ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["src/Device.Fingerprint.ExternalAPI/Device.Fingerprint.ExternalAPI.csproj", "src/Device.Fingerprint.ExternalAPI/"]
-RUN dotnet restore "./src/Device.Fingerprint.ExternalAPI/Device.Fingerprint.ExternalAPI.csproj"
-COPY . .
-WORKDIR "/src/src/Device.Fingerprint.ExternalAPI"
-RUN dotnet build "./Device.Fingerprint.ExternalAPI.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
-# This stage is used to publish the service project to be copied to the final stage
-FROM build AS publish
-ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./Device.Fingerprint.ExternalAPI.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+# Install curl for health checks (if needed)
+# Create non-root user for security
+RUN apk add --no-cache curl \
+&& addgroup -g 1001 -S appgroup \
+&& adduser -S appuser -u 1001 -G appgroup
 
-# This stage is used in production or when running from VS in regular mode (Default when not using the Debug configuration)
-FROM base AS final
+# Copy project files for dependency restoration
+COPY ["src/Device.FingerPrint.ExternalAPI/Device.FingerPrint.ExternalAPI.csproj", "Device.FingerPrint.ExternalAPI/"]
+
+# Add custom NuGet source
+RUN dotnet nuget add source https://nuget.nexdev.net/api/v2
+
+# Restore dependencies
+WORKDIR "/src/Device.FingerPrint.ExternalAPI"
+RUN dotnet restore "Device.FingerPrint.ExternalAPI.csproj" -v n
+
+# Copy source code
+COPY ["src/Device.FingerPrint.ExternalAPI/", "."]
+
+# Build and publish the application
+RUN dotnet publish "Device.FingerPrint.ExternalAPI.csproj" \
+    -c Release \
+    -o /app/publish \
+    --no-restore \
+    --verbosity normal
+
+# Stage 2: Runtime
+FROM hub.nexdev.net/base/dotnet/core/aspnet:9.0-alpine AS runtime
+
 WORKDIR /app
-COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "Device.Fingerprint.ExternalAPI.dll"]
+
+# Install necessary packages for runtime
+RUN apk add --no-cache \
+    ca-certificates \
+    curl \
+    tzdata \
+&& addgroup -g 1001 -S appgroup \
+&& adduser -S appuser -u 1001 -G appgroup
+
+# Copy published application
+COPY --from=build /app/publish .
+
+# Set ownership to non-root user
+RUN chown -R appuser:appgroup /app
+
+# Switch to non-root user
+USER appuser
+
+# Environment variables
+ENV TZ="America/La_Paz"
+
+# Entry point
+ENTRYPOINT ["dotnet", "Device.FingerPrint.ExternalAPI.dll"]

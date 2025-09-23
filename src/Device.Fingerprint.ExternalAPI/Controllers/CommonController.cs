@@ -25,7 +25,7 @@ namespace Device.Fingerprint.ExternalAPI.Controllers
             {
                 Environment = appSettings.Environment,
                 ServerName = Environment.MachineName,
-                ServerTime = DateTime.Now,
+                ServerTime = DateTimeOffset.Now.DateTime,
                 LocalIP = localIpAddress.ToString(),
                 ClientIP = GetHeaderIP("X-Remote-IP"),
                 FakeIP = GetFakeIp(),
@@ -41,7 +41,7 @@ namespace Device.Fingerprint.ExternalAPI.Controllers
 
             if (!string.IsNullOrEmpty(proxyIP))
             {
-                var ips = proxyIP.Split(new char[] { ',' });
+                var ips = proxyIP.Split(',');
 
                 if (ips[0] != GetRealIp())
                 {
@@ -100,7 +100,7 @@ namespace Device.Fingerprint.ExternalAPI.Controllers
 
                 if (!string.IsNullOrEmpty(clientIps))
                 {
-                    var ips = clientIps.Split(new char[] { ',' });
+                    var ips = clientIps.Split(',');
 
                     if (ips.Length > 1)
                     {
@@ -116,7 +116,7 @@ namespace Device.Fingerprint.ExternalAPI.Controllers
             }
             else
             {
-                return proxyIP.Split(new char[] { ',' })[0];
+                return proxyIP.Split(',')[0];
             }
         }
     }
