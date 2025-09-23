@@ -1,3 +1,4 @@
+using Device.Fingerprint.ExternalAPI.DataAccess;
 using Device.Fingerprint.ExternalAPI.Filters;
 using Device.Fingerprint.ExternalAPI.Models;
 using Device.Fingerprint.ExternalAPI.Services;
@@ -10,7 +11,6 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.RateLimiting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using StackExchange.Redis.Extensions.Core;
@@ -86,6 +86,9 @@ builder.Services.AddSingleton<IRedisService, RedisService>();
 
 builder.Services.AddSingleton<RequestCounterService>();
 builder.Services.AddScoped<RequestCounterFilter>();
+
+builder.Services.AddSingleton<ISubscriberDataAccess, SubscriberDataAccess>();
+builder.Services.AddScoped<ISubscriberService, SubscriberService>();
 
 builder.Services.AddHttpContextAccessor();
 

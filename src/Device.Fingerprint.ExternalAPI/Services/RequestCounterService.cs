@@ -11,7 +11,7 @@
 
         public async Task IncrementRequestCountAsync(string functionName)
         {
-            await this.redisService.HashIncrementAsync(functionName, DateTime.UtcNow.ToString("yyyy-MM-dd"), 1);
+            await this.redisService.HashIncrementAsync(functionName, DateTimeOffset.UtcNow.ToString("yyyy-MM-dd"), 1);
         }
     }
 }

@@ -9,7 +9,6 @@ namespace Device.Fingerprint.ExternalAPI.Tests.Controllers;
 
 public class CommonControllerTests
 {
-    private readonly Mock<HttpContext> _mockHttpContext;
     private readonly CommonController _controller;
 
     public CommonControllerTests()
