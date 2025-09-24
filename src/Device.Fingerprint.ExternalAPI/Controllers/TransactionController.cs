@@ -201,8 +201,8 @@ namespace Device.Fingerprint.ExternalAPI.Controllers
         {
             DateTime minValidDate = DateTimeOffset.Now.DateTime.AddMonths(-appSettings.MaxMonthsGetAssociationByDevice);
 
-            return DateTimeOffset.Compare(minValidDate, fromDate) <= 0 && DateTimeOffset.Compare(fromDate, DateTime.Today) <= 0
-                        && DateTimeOffset.Compare(minValidDate, toDate) <= 0 && DateTimeOffset.Compare(toDate, DateTime.Today) <= 0;
+            return DateTimeOffset.Compare(minValidDate, fromDate) <= 0 && DateTimeOffset.Compare(fromDate, DateTimeOffset.Now) <= 0
+                        && DateTimeOffset.Compare(minValidDate, toDate) <= 0 && DateTimeOffset.Compare(toDate, DateTimeOffset.Now) <= 0;
         }
 
     }
