@@ -29,5 +29,16 @@
 		    <Value>**\Program.cs, **/*Middleware*, **/*DataAccess*, **/*legacy*, **/*native*, **/*Test*, **/*Model*, **/*Entity*, **/*Criteria*, **/*Command*, **/*Exception*, **/*Test*/**, **/*Model*/**, **/*Entity*/**, **/*Criteria*/**, **/*Command*/**, **/*Exception*/**</Value>
 	    </SonarQubeSetting>
     </ItemGroup>
-
+	
+	<ItemGroup>
+		<None Update="App_Data\LOCAL\SPNames.xml">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="App_Data\PROD\SPNames.xml">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="App_Data\UAT\SPNames.xml">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
 </Project>
