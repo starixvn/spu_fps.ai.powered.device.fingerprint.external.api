@@ -17,8 +17,8 @@ namespace Device.Fingerprint.ExternalAPI.Controllers
             this.riskLevelService = riskLevelService;
         }
 
-        [HttpGet("GetRiskLevelBySubscriber/{subscriberName}/{lastId:long}")]
-        public ActionResult<CustomerClassRiskLevelModel> GetRiskLevelBySubscriber(string subscriberName, long lastId)
+        [HttpGet("GetRiskLevelBySubscriber/{subscriberName}/{lastId}")]
+        public ActionResult<CustomerClassRiskLevelList> GetRiskLevelBySubscriber(string subscriberName, long lastId)
         {
             try
             {

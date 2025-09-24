@@ -25,6 +25,12 @@ using System.Threading.RateLimiting;
 
 var builder = WebApplication.CreateBuilder(args);
 
+#if DEBUG
+builder.WebHost.UseUrls("http://*:5009");
+#else
+builder.WebHost.UseUrls("http://*:5000");
+#endif
+
 builder.Configuration
     .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
 
