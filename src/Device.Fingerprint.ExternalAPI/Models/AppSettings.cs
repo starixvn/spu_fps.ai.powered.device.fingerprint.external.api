@@ -29,8 +29,8 @@
 
             environment = GetValue<string>("Environment");
 
-            maxMonthsGetAssociationByDevice = Convert.ToInt32(string.IsNullOrEmpty(GetValue<string>("API:MaxMonthsGetAssociationByDevice")) ? "0" : GetValue<string>("API:MaxMonthsGetAssociationByDevice"));
-
+            var strMaxMonthsGetAssociationByDevice = GetValue<string>("API:MaxMonthsGetAssociationByDevice");
+            maxMonthsGetAssociationByDevice = Convert.ToInt32(string.IsNullOrEmpty(strMaxMonthsGetAssociationByDevice) ? "0" : strMaxMonthsGetAssociationByDevice);
         }
 
         public string SentryDsn => sentryDsn;

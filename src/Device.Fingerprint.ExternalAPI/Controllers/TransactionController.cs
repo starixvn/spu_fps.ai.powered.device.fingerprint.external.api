@@ -9,7 +9,7 @@ namespace Device.Fingerprint.ExternalAPI.Controllers
     [ApiController]
     public class TransactionController : ControllerBase
     {
-        private static readonly string yyyyMMddFormat = "yyyy-MM-dd";
+        private const string yyyyMMddFormat = "yyyy-MM-dd";
 
         private readonly ISubscriberService subscriberService;
         private readonly ITransactionService transactionService;
@@ -45,7 +45,9 @@ namespace Device.Fingerprint.ExternalAPI.Controllers
                     var accountIDs = string.Join(',', trans.Select(x => x.AccountID).Distinct());
 
                     if (!string.IsNullOrEmpty(accountIDs))
+                    {
                         riskLevels = riskLevelService.GetCustomerClassRiskLevelByAccount(accountIDs);
+                    }
 
                     var transformedTrans = trans.Select(x => new TransactionHistoryModel
                     {
@@ -197,10 +199,10 @@ namespace Device.Fingerprint.ExternalAPI.Controllers
 
         private bool IsDateRangeValid(DateTime fromDate, DateTime toDate)
         {
-            DateTime minValidDate = DateTime.Today.AddMonths(-appSettings.MaxMonthsGetAssociationByDevice);
+            DateTime minValidDate = DateTimeOffset.Now.DateTime.AddMonths(-appSettings.MaxMonthsGetAssociationByDevice);
 
-            return DateTime.Compare(minValidDate, fromDate) <= 0 && DateTime.Compare(fromDate, DateTime.Today) <= 0
-                        && DateTime.Compare(minValidDate, toDate) <= 0 && DateTime.Compare(toDate, DateTime.Today) <= 0;
+            return DateTimeOffset.Compare(minValidDate, fromDate) <= 0 && DateTimeOffset.Compare(fromDate, DateTime.Today) <= 0
+                        && DateTimeOffset.Compare(minValidDate, toDate) <= 0 && DateTimeOffset.Compare(toDate, DateTime.Today) <= 0;
         }
 
     }
