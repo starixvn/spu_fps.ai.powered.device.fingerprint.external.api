@@ -40,17 +40,14 @@ namespace Device.Fingerprint.ExternalAPI.Middlewares
             {
                 var jwtSetting = configuration.GetSection("AppConfig:JWT:SubscriberConfig").Get<IEnumerable<SubscriberTokenModel>>();
                 var subscriber = context.Request.Path.Value.Split('/')[3];
-                foreach (var item in jwtSetting)
-                {
-                    if (item.Token.ToLower().Equals(token.ToLower()))
-                    {
-                        var subscribers = item.Subscribers.Split(',');
 
-                        if (subscribers.Length > 0 && subscribers.Any(x => x.Trim().ToLower().Equals(subscriber.ToLower())))
-                        {
-                            return true;
-                        }
-                    }
+                var matchingToken = jwtSetting
+                    .FirstOrDefault(item => item.Token.Equals(token, StringComparison.OrdinalIgnoreCase));
+
+                if (matchingToken != null)
+                {
+                    var subscribers = matchingToken.Subscribers.Split(',');
+                    return subscribers.Length > 0 && subscribers.Any(x => x.Trim().Equals(subscriber, StringComparison.OrdinalIgnoreCase));
                 }
             }
 
