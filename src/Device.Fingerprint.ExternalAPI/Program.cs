@@ -1,5 +1,6 @@
 using Device.Fingerprint.ExternalAPI.DataAccess;
 using Device.Fingerprint.ExternalAPI.Filters;
+using Device.Fingerprint.ExternalAPI.Middlewares;
 using Device.Fingerprint.ExternalAPI.Models;
 using Device.Fingerprint.ExternalAPI.Services;
 using Fanex.Data.MySql;
@@ -158,6 +159,8 @@ if (app.Environment.IsDevelopment())
     app.UseDeveloperExceptionPage();
 }
 
+app.UseMiddleware<ExceptionMiddleware>();
+
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
@@ -190,6 +193,8 @@ app.Use(async (context, next) =>
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseMiddleware<JwtValidationMiddleware>();
 
 app.MapControllers();
 
