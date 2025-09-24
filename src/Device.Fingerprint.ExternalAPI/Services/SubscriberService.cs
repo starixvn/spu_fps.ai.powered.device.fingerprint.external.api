@@ -6,8 +6,6 @@ namespace Device.Fingerprint.ExternalAPI.Services
     public interface ISubscriberService
     {
         SubscriberModel GetSubscriberByName(string subscriberName);
-
-        IEnumerable<SubscriberModel> GetSubscriberList();
     }
 
     public class SubscriberService : ISubscriberService
@@ -34,22 +32,6 @@ namespace Device.Fingerprint.ExternalAPI.Services
             }
 
             return new();
-        }
-
-        public IEnumerable<SubscriberModel> GetSubscriberList()
-        {
-            var subcribers = subscriberDataAccess.GetSubscriberList();
-
-            if (subcribers != null && subcribers.Any())
-            {
-                return subcribers.Select(x => new SubscriberModel
-                {
-                    SubscriberId = x.SubscriberId,
-                    SubscriberName = x.SubscriberName
-                });
-            }
-
-            return [];
         }
     }
 }

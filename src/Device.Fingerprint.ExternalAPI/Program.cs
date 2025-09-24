@@ -2,6 +2,7 @@ using Device.Fingerprint.ExternalAPI.DataAccess;
 using Device.Fingerprint.ExternalAPI.Filters;
 using Device.Fingerprint.ExternalAPI.Models;
 using Device.Fingerprint.ExternalAPI.Services;
+using Fanex.Data.MySql;
 using Fanex.Logging;
 using Fanex.Logging.Extensions;
 using Fanex.Logging.Extensions.AspNetCore;
@@ -11,6 +12,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.RateLimiting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using StackExchange.Redis.Extensions.Core;
@@ -74,6 +76,7 @@ builder.Services.Configure<ForwardedHeadersOptions>(options =>
         ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
 });
 
+builder.Services.AddFanexSql(builder.Configuration);
 
 var redisConfiguration = builder.Configuration.GetSection("Redis").Get<RedisConfiguration>();
 
