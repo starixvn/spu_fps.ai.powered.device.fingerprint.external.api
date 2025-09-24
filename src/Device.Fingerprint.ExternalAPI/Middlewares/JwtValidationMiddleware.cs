@@ -17,8 +17,9 @@ namespace Device.Fingerprint.ExternalAPI.Middlewares
 
         public async Task Invoke(HttpContext context)
         {
-            if ((this.appSettings.Environment == "PROD" || this.appSettings.Environment == "UAT") &&
-                !context.Request.Path.Value.Contains("generatetoken/audience") && !context.Request.Path.Value.Contains("whoami"))
+            if ((this.appSettings.Environment == "PROD" || this.appSettings.Environment == "UAT") &&                
+                !context.Request.Path.Value.Contains("whoami") && 
+                !context.Request.Path.Value.Contains("healthz"))
             {
                 var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(' ').LastOrDefault();
 
