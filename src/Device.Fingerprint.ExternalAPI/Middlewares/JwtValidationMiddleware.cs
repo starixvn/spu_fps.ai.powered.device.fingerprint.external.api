@@ -47,7 +47,7 @@ namespace Device.Fingerprint.ExternalAPI.Middlewares
                 if (matchingToken != null)
                 {
                     var subscribers = matchingToken.Subscribers.Split(',');
-                    return subscribers.Length > 0 && subscribers.Any(x => x.Trim().Equals(subscriber, StringComparison.OrdinalIgnoreCase));
+                    return subscribers.Length > 0 && Array.Exists(subscribers, x => x.Trim().Equals(subscriber, StringComparison.OrdinalIgnoreCase));
                 }
             }
 
