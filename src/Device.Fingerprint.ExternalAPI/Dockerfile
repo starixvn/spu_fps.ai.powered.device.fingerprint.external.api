@@ -11,20 +11,20 @@ RUN apk add --no-cache curl \
 && adduser -S appuser -u 1001 -G appgroup
 
 # Copy project files for dependency restoration
-COPY ["src/Device.FingerPrint.ExternalAPI/Device.FingerPrint.ExternalAPI.csproj", "Device.FingerPrint.ExternalAPI/"]
+COPY ["src/Device.Fingerprint.ExternalAPI/Device.Fingerprint.ExternalAPI.csproj", "Device.Fingerprint.ExternalAPI/"]
 
 # Add custom NuGet source
 RUN dotnet nuget add source https://nuget.nexdev.net/api/v2
 
 # Restore dependencies
-WORKDIR "/src/Device.FingerPrint.ExternalAPI"
-RUN dotnet restore "Device.FingerPrint.ExternalAPI.csproj" -v n
+WORKDIR "/src/Device.Fingerprint.ExternalAPI"
+RUN dotnet restore "Device.Fingerprint.ExternalAPI.csproj" -v n
 
 # Copy source code
-COPY ["src/Device.FingerPrint.ExternalAPI/", "."]
+COPY ["src/Device.Fingerprint.ExternalAPI/", "."]
 
 # Build and publish the application
-RUN dotnet publish "Device.FingerPrint.ExternalAPI.csproj" \
+RUN dotnet publish "Device.Fingerprint.ExternalAPI.csproj" \
     -c Release \
     -o /app/publish \
     --no-restore \
@@ -56,4 +56,4 @@ USER appuser
 ENV TZ="America/La_Paz"
 
 # Entry point
-ENTRYPOINT ["dotnet", "Device.FingerPrint.ExternalAPI.dll"]
+ENTRYPOINT ["dotnet", "Device.Fingerprint.ExternalAPI.dll"]
