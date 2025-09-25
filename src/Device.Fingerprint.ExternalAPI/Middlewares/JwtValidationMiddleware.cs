@@ -17,7 +17,9 @@ namespace Device.Fingerprint.ExternalAPI.Middlewares
 
         public async Task Invoke(HttpContext context)
         {
-            if ((this.appSettings.Environment == "PROD" || this.appSettings.Environment == "UAT" || this.appSettings.Environment == "LOCAL") &&                
+            string[] environmentDetection = { "PROD", "UAT", "LOCAL" };
+
+            if (environmentDetection.Contains(this.appSettings.Environment) &&                
                 !context.Request.Path.Value.Contains("whoami") && 
                 !context.Request.Path.Value.Contains("healthz"))
             {
@@ -39,7 +41,7 @@ namespace Device.Fingerprint.ExternalAPI.Middlewares
         {
             if (!string.IsNullOrWhiteSpace(token))
             {
-                var jwtSetting = configuration.GetSection("AppConfig:JWT:SubscriberConfig").Get<IEnumerable<SubscriberTokenModel>>();
+                var jwtSetting = configuration.GetSection("JWT:SubscriberConfig").Get<IEnumerable<SubscriberTokenModel>>();
                 var subscriber = context.Request.Path.Value.Split('/')[3];
 
                 var matchingToken = jwtSetting
