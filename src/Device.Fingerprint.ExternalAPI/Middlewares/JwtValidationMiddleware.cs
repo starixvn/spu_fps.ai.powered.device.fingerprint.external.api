@@ -17,7 +17,7 @@ namespace Device.Fingerprint.ExternalAPI.Middlewares
 
         public async Task Invoke(HttpContext context)
         {
-            if ((this.appSettings.Environment == "PROD" || this.appSettings.Environment == "UAT") &&                
+            if ((this.appSettings.Environment == "PROD" || this.appSettings.Environment == "UAT" || this.appSettings.Environment == "LOCAL") &&                
                 !context.Request.Path.Value.Contains("whoami") && 
                 !context.Request.Path.Value.Contains("healthz"))
             {
